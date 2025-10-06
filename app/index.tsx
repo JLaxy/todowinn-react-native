@@ -1,16 +1,10 @@
+import { useAuthContext } from "@/contexts/auth.context";
 import "@/styles/global.css";
-import { Text, View } from "react-native";
+import { Redirect } from "expo-router";
 
 export default function Index() {
-  return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Text className="flex bg-amber-500 text-lg">Hello worldss !</Text>
-    </View>
-  );
+  const { isLoggedIn } = useAuthContext();
+
+  if (!isLoggedIn) return <Redirect href="/login" />;
+  else return <Redirect href="/dashboard" />;
 }
