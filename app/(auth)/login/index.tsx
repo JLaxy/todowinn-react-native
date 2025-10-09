@@ -1,6 +1,7 @@
 import { useThemeContext } from "@/contexts/theme.context";
 import { createGlobalStyles } from "@/styles/globalStyles";
 import { createScreenStyle } from "@/styles/screens/loginscreen.style";
+import { Button } from "@react-navigation/elements";
 import { Link } from "expo-router";
 import React, { useState } from "react";
 import { Pressable, Text, TextInput, View } from "react-native";
@@ -68,7 +69,7 @@ export default function LoginScreen() {
             Sign Up
           </Link>
         </View>
-        {/* <Button onPress={toggleTheme}>Change Mode</Button> */}
+        <Button onPress={toggleTheme}>Change Mode</Button>
       </View>
     </View>
   );

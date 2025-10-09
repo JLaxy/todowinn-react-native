@@ -1,10 +1,14 @@
 import { useThemeContext } from "@/contexts/theme.context";
+import { memberService } from "@/services/member.service";
 import { createGlobalStyles } from "@/styles/globalStyles";
 import { createScreenStyle } from "@/styles/screens/signupscreen.style";
+import { ApiError } from "@/utils/api";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useRouter } from "expo-router";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Pressable, Text, TextInput, View } from "react-native";
+import { Toast } from "toastify-react-native";
 import * as yup from "yup";
 
 const signupSchema = yup.object().shape({
@@ -23,6 +27,7 @@ export default function SignupScreen() {
   const {
     control,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm({ resolver: yupResolver(signupSchema) });
 
@@ -30,12 +35,35 @@ export default function SignupScreen() {
   const globalStyles = createGlobalStyles(colors);
   const screenStyle = createScreenStyle(colors); // Pass current colors to style
 
-  const onSubmit = (data: {
+  const router = useRouter();
+
+  const onSubmit = async (data: {
     email: string;
     pass: string;
     repeatPass: string;
   }) => {
-    console.log(data);
+    try {
+      console.log(data);
+
+      const res = await memberService.signup(data.email, data.pass);
+
+      console.log(res);
+
+      if (res.status === 201) {
+        Toast.success("Member successfully created! Please login.");
+        router.push("/login");
+      }
+    } catch (error) {
+      handleError(error as ApiError);
+    }
+  };
+
+  const handleError = (error: ApiError) => {
+    if (error.statusCode === 409)
+      setError("email", { type: "manual", message: "Email is already taken!" });
+    else if (error.statusCode === 400)
+      setError("email", { type: "manual", message: "Invalid email!" });
+    else Toast.error("Something went wrong, please try again.");
   };
 
   return (

@@ -18,6 +18,7 @@ export const createGlobalStyles = (colors: typeof lightTheme.colors) =>
     },
     input_field: {
       backgroundColor: colors.bgLight,
+      color: colors.mainText,
       borderRadius: scale(30),
       paddingHorizontal: scale(15),
     },
