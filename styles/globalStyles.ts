@@ -12,6 +12,10 @@ export const createGlobalStyles = (colors: typeof lightTheme.colors) =>
       fontFamily: "PTSans_400Regular",
       color: colors.mainText,
     },
+    error_text: {
+      fontFamily: "PTSans_400Regular",
+      color: "red",
+    },
     input_field: {
       backgroundColor: colors.bgLight,
       borderRadius: scale(30),

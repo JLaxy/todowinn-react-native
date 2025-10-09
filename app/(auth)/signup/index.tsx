@@ -1,17 +1,42 @@
 import { useThemeContext } from "@/contexts/theme.context";
 import { createGlobalStyles } from "@/styles/globalStyles";
 import { createScreenStyle } from "@/styles/screens/signupscreen.style";
-import React, { useState } from "react";
+import { yupResolver } from "@hookform/resolvers/yup";
+import React from "react";
+import { Controller, useForm } from "react-hook-form";
 import { Pressable, Text, TextInput, View } from "react-native";
+import * as yup from "yup";
+
+const signupSchema = yup.object().shape({
+  email: yup.string().email("Invalid email!").required("Email is required"),
+  pass: yup
+    .string()
+    .min(8, "Password must be atleast 8 characters!")
+    .required("Password is required."),
+  repeatPass: yup
+    .string()
+    .oneOf([yup.ref("pass")], "Passwords do not match!")
+    .required("Please repeat your password."),
+}); // Schema for validation
 
 export default function SignupScreen() {
-  const [email, setEmail] = useState<string>();
-  const [pass, setPass] = useState<string>();
-  const [repeatPass, setRepeatPass] = useState<string>();
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ resolver: yupResolver(signupSchema) });
 
   const { colors } = useThemeContext();
   const globalStyles = createGlobalStyles(colors);
   const screenStyle = createScreenStyle(colors); // Pass current colors to style
+
+  const onSubmit = (data: {
+    email: string;
+    pass: string;
+    repeatPass: string;
+  }) => {
+    console.log(data);
+  };
 
   return (
     <View style={[screenStyle.main_view]}>
@@ -23,44 +48,88 @@ export default function SignupScreen() {
           Sign Up
         </Text>
         <View style={[screenStyle.fields_view]}>
-          <TextInput
-            style={[globalStyles.input_field]}
-            value={email}
-            onChangeText={setEmail}
-            placeholder="Email"
-            autoCapitalize="none"
-            autoCorrect={false}
-            autoComplete="email"
-            inputMode="email"
-            returnKeyType="next"
-            placeholderTextColor={colors.mainText}
+          <Controller
+            name="email"
+            control={control}
+            render={({ field: { onBlur, onChange, value } }) => (
+              <TextInput
+                style={[
+                  globalStyles.input_field,
+                  errors.email && { borderColor: "red", borderWidth: 1 },
+                ]}
+                value={value}
+                onBlur={onBlur}
+                onChangeText={onChange}
+                placeholder="Email"
+                autoCapitalize="none"
+                autoCorrect={false}
+                autoComplete="email"
+                inputMode="email"
+                returnKeyType="next"
+                placeholderTextColor={colors.mainText}
+              />
+            )}
           />
-          <TextInput
-            style={[globalStyles.input_field]}
-            value={pass}
-            onChangeText={setPass}
-            placeholder="Password"
-            autoCapitalize="none"
-            autoCorrect={false}
-            autoComplete="new-password"
-            returnKeyType="done"
-            secureTextEntry={true}
-            placeholderTextColor={colors.mainText}
+          {errors.email && (
+            <Text style={globalStyles.error_text}>{errors.email.message}</Text>
+          )}
+          <Controller
+            name="pass"
+            control={control}
+            render={({ field: { onBlur, onChange, value } }) => (
+              <TextInput
+                style={[
+                  globalStyles.input_field,
+                  errors.pass && { borderColor: "red", borderWidth: 1 },
+                ]}
+                value={value}
+                onBlur={onBlur}
+                onChangeText={onChange}
+                placeholder="Password"
+                autoCapitalize="none"
+                autoCorrect={false}
+                autoComplete="new-password"
+                returnKeyType="done"
+                secureTextEntry={true}
+                placeholderTextColor={colors.mainText}
+              />
+            )}
           />
-          <TextInput
-            style={[globalStyles.input_field]}
-            value={repeatPass}
-            onChangeText={setRepeatPass}
-            placeholder="Repeat Password"
-            autoCapitalize="none"
-            autoCorrect={false}
-            autoComplete="new-password"
-            returnKeyType="done"
-            secureTextEntry={true}
-            placeholderTextColor={colors.mainText}
+          {errors.pass && (
+            <Text style={globalStyles.error_text}>{errors.pass.message}</Text>
+          )}
+          <Controller
+            name="repeatPass"
+            control={control}
+            render={({ field: { onBlur, onChange, value } }) => (
+              <TextInput
+                style={[
+                  globalStyles.input_field,
+                  errors.repeatPass && { borderColor: "red", borderWidth: 1 },
+                ]}
+                value={value}
+                onBlur={onBlur}
+                onChangeText={onChange}
+                placeholder="Repeat Password"
+                autoCapitalize="none"
+                autoCorrect={false}
+                autoComplete="new-password"
+                returnKeyType="done"
+                secureTextEntry={true}
+                placeholderTextColor={colors.mainText}
+              />
+            )}
           />
+          {errors.repeatPass && (
+            <Text style={globalStyles.error_text}>
+              {errors.repeatPass.message}
+            </Text>
+          )}
         </View>
-        <Pressable style={[globalStyles.buttons]}>
+        <Pressable
+          style={[globalStyles.buttons]}
+          onPress={handleSubmit(onSubmit)}
+        >
           <Text style={[globalStyles.button_text]} allowFontScaling>
             Sign Up
           </Text>
