@@ -8,7 +8,6 @@ export const createScreenStyle = (colors: typeof lightTheme.colors) =>
       textAlign: "center",
       fontSize: scaleFont(35),
       paddingTop: verticalScale(60),
-      color: colors.text,
     },
 
     login_card: {
@@ -25,12 +24,15 @@ export const createScreenStyle = (colors: typeof lightTheme.colors) =>
       fontSize: scaleFont(25),
       fontWeight: "bold",
       marginBottom: verticalScale(20),
-      color: colors.text,
+    },
+
+    login_button: {
+      marginBottom: scale(10),
     },
 
     fields_view: {
-      gap: scale(10),
-      marginBottom: scale(15),
+      gap: scale(20),
+      marginBottom: scale(35),
     },
 
     signup_view: {

@@ -6,13 +6,25 @@ export const createGlobalStyles = (colors: typeof lightTheme.colors) =>
   StyleSheet.create({
     title_text: {
       fontFamily: "OpenSans_800ExtraBold",
+      color: colors.mainText,
     },
     body_text: {
       fontFamily: "PTSans_400Regular",
+      color: colors.mainText,
     },
-    input_fields: {
+    input_field: {
       backgroundColor: colors.bgLight,
       borderRadius: scale(30),
       paddingHorizontal: scale(15),
+    },
+    buttons: {
+      alignItems: "center",
+      paddingVertical: scale(8),
+      borderRadius: scale(30),
+      backgroundColor: colors.bgLight,
+    },
+    button_text: {
+      color: colors.mainText,
+      fontWeight: "bold",
     },
   });

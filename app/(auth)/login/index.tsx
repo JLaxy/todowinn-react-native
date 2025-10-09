@@ -1,11 +1,9 @@
 import { useThemeContext } from "@/contexts/theme.context";
 import { createGlobalStyles } from "@/styles/globalStyles";
 import { createScreenStyle } from "@/styles/screens/loginscreen.style";
-import { Button } from "@react-navigation/elements";
 import { Link } from "expo-router";
 import React, { useState } from "react";
-import { Text, TextInput, View } from "react-native";
-import { verticalScale } from "react-native-size-matters";
+import { Pressable, Text, TextInput, View } from "react-native";
 
 export default function LoginScreen() {
   const [email, setEmail] = useState<string>();
@@ -32,7 +30,7 @@ export default function LoginScreen() {
         </Text>
         <View style={[screenStyle.fields_view]}>
           <TextInput
-            style={[globalStyles.input_fields]}
+            style={[globalStyles.input_field]}
             value={email}
             onChangeText={setEmail}
             placeholder="Email"
@@ -41,9 +39,10 @@ export default function LoginScreen() {
             autoComplete="email"
             inputMode="email"
             returnKeyType="next"
+            placeholderTextColor={colors.mainText}
           />
           <TextInput
-            style={[globalStyles.input_fields]}
+            style={[globalStyles.input_field]}
             value={pass}
             onChangeText={setPass}
             placeholder="Password"
@@ -52,14 +51,22 @@ export default function LoginScreen() {
             autoComplete="new-password"
             returnKeyType="done"
             secureTextEntry={true}
+            placeholderTextColor={colors.mainText}
           />
         </View>
-        <Button style={[{ marginBottom: verticalScale(3) }]}>Login</Button>
+        <Pressable style={[globalStyles.buttons, screenStyle.login_button]}>
+          <Text style={[globalStyles.button_text]}>Login</Text>
+        </Pressable>
         <View style={[screenStyle.signup_view]}>
-          <Text allowFontScaling>Don&apos;t have an account?</Text>
-          <Link href="/signup"> Sign Up</Link>
+          <Text allowFontScaling style={[globalStyles.body_text]}>
+            Don&apos;t have an account?
+          </Text>
+          <Link href="/signup" style={[globalStyles.body_text]}>
+            {" "}
+            Sign Up
+          </Link>
         </View>
-        <Button onPress={toggleTheme}>Change Mode</Button>
+        {/* <Button onPress={toggleTheme}>Change Mode</Button> */}
       </View>
     </View>
   );
