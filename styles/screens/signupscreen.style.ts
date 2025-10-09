@@ -5,16 +5,11 @@ import { lightTheme } from "../themes";
 export const createScreenStyle = (colors: typeof lightTheme.colors) =>
   StyleSheet.create({
     main_view: {
-      paddingTop: scale(80),
+      flex: 1,
+      justifyContent: "center",
     },
 
-    title_text: {
-      textAlign: "center",
-      fontSize: scaleFont(35),
-      paddingTop: verticalScale(60),
-    },
-
-    login_card: {
+    signup_card: {
       display: "flex",
       padding: scale(25),
       margin: scale(25),
@@ -23,25 +18,15 @@ export const createScreenStyle = (colors: typeof lightTheme.colors) =>
       backgroundColor: colors.bg,
     },
 
-    login_text: {
+    signup_text: {
       textAlign: "center",
       fontSize: scaleFont(25),
       fontWeight: "bold",
       marginBottom: verticalScale(20),
     },
 
-    login_button: {
-      marginBottom: scale(10),
-    },
-
     fields_view: {
       gap: scale(10),
       marginBottom: scale(35),
-    },
-
-    signup_view: {
-      display: "flex",
-      flexDirection: "row",
-      justifyContent: "center",
     },
   });

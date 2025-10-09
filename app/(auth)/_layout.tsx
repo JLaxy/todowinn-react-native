@@ -6,8 +6,8 @@ export default function AuthLayout() {
   const { colors } = useThemeContext();
   return (
     <Stack screenOptions={{ contentStyle: { backgroundColor: colors.bgDark } }}>
-      <Stack.Screen name="login/index" />
-      <Stack.Screen name="signup/index" />
+      <Stack.Screen name="login/index" options={{ headerShown: false }} />
+      <Stack.Screen name="signup/index" options={{ headerShown: false }} />
     </Stack>
   );
 }

@@ -14,7 +14,7 @@ export default function LoginScreen() {
   const screenStyle = createScreenStyle(colors); // Pass current colors to style
 
   return (
-    <View>
+    <View style={[screenStyle.main_view]}>
       <Text
         style={[globalStyles.title_text, screenStyle.title_text]}
         allowFontScaling
@@ -55,7 +55,9 @@ export default function LoginScreen() {
           />
         </View>
         <Pressable style={[globalStyles.buttons, screenStyle.login_button]}>
-          <Text style={[globalStyles.button_text]}>Login</Text>
+          <Text style={[globalStyles.button_text]} allowFontScaling>
+            Login
+          </Text>
         </Pressable>
         <View style={[screenStyle.signup_view]}>
           <Text allowFontScaling style={[globalStyles.body_text]}>
