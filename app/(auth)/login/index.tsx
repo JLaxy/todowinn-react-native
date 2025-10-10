@@ -49,7 +49,7 @@ export default function LoginScreen() {
         });
 
       setTimeout(() => {
-        router.push("/dashboard");
+        router.replace("/dashboard");
       }, 1500);
     } catch (error) {
       if ((error as ApiError).statusCode === 500) {

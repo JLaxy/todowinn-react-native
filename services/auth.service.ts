@@ -9,4 +9,12 @@ export const authService = {
       throw normalizeApiError(error);
     }
   },
+  logout: async () => {
+    try {
+      const res = await api.post("/auth/logout");
+      return res;
+    } catch (error) {
+      throw normalizeApiError(error);
+    }
+  },
 };

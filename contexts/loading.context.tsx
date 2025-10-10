@@ -1,4 +1,4 @@
-import LoadingOverlay from "@/styles/components/loading-overlay";
+import LoadingOverlay from "@/components/loading-overlay";
 import React, { createContext, useContext, useState } from "react";
 
 interface LoadingContextType {
