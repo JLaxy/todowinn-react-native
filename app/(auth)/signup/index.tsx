@@ -8,7 +8,7 @@ import { useRouter } from "expo-router";
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Pressable, Text, TextInput, View } from "react-native";
-import { Toast } from "toastify-react-native";
+import Toast from "react-native-toast-message";
 import * as yup from "yup";
 
 const signupSchema = yup.object().shape({
@@ -43,15 +43,17 @@ export default function SignupScreen() {
     repeatPass: string;
   }) => {
     try {
-      console.log(data);
-
+      console.log(`submitted: ${data}`);
       const res = await memberService.signup(data.email, data.pass);
 
-      console.log(res);
-
       if (res.status === 201) {
-        Toast.success("Member successfully created! Please login.");
-        router.push("/login");
+        Toast.show({
+          type: "success",
+          text1: "Member Created",
+          text2: "Member successfully created! Please login.",
+          visibilityTime: 2000,
+        });
+        setTimeout(() => router.replace("/login"), 2000); // Reditect after 2 seconds
       }
     } catch (error) {
       handleError(error as ApiError);
@@ -63,7 +65,12 @@ export default function SignupScreen() {
       setError("email", { type: "manual", message: "Email is already taken!" });
     else if (error.statusCode === 400)
       setError("email", { type: "manual", message: "Invalid email!" });
-    else Toast.error("Something went wrong, please try again.");
+    else
+      Toast.show({
+        type: "error",
+        text1: "Error",
+        text2: "Something went wrong, please try again.",
+      });
   };
 
   return (
