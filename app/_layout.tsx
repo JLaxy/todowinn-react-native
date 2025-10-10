@@ -1,4 +1,5 @@
 import { AuthProvider } from "@/contexts/auth.context";
+import { LoadingProvider } from "@/contexts/loading.context";
 import { ThemeProvider } from "@/contexts/theme.context";
 import { OpenSans_800ExtraBold, useFonts } from "@expo-google-fonts/open-sans";
 import { PTSans_400Regular } from "@expo-google-fonts/pt-sans";
@@ -23,13 +24,15 @@ export default function RootLayout() {
   return (
     <>
       <ThemeProvider>
-        <AuthProvider>
-          <Stack initialRouteName="index">
-            <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-            <Stack.Screen name="index" options={{ headerShown: false }} />
-          </Stack>
-        </AuthProvider>
+        <LoadingProvider>
+          <AuthProvider>
+            <Stack initialRouteName="index">
+              <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+              <Stack.Screen name="index" options={{ headerShown: false }} />
+            </Stack>
+          </AuthProvider>
+        </LoadingProvider>
       </ThemeProvider>
       <Toast />
     </>

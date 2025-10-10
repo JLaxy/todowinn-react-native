@@ -1,4 +1,5 @@
 import ErrorText from "@/components/error.text";
+import { useLoadingContext } from "@/contexts/loading.context";
 import { useThemeContext } from "@/contexts/theme.context";
 import { memberService } from "@/services/member.service";
 import { createGlobalStyles } from "@/styles/globalStyles";
@@ -31,6 +32,7 @@ export default function SignupScreen() {
     setError,
     formState: { errors },
   } = useForm({ resolver: yupResolver(signupSchema) }); // For forms
+  const { setIsLoading } = useLoadingContext();
 
   const { colors } = useThemeContext();
   const globalStyles = createGlobalStyles(colors);
@@ -43,6 +45,7 @@ export default function SignupScreen() {
     pass: string;
     repeatPass: string;
   }) => {
+    setIsLoading(true);
     try {
       console.log(`submitted: ${data}`);
       const res = await memberService.signup(data.email, data.pass);
@@ -59,6 +62,7 @@ export default function SignupScreen() {
     } catch (error) {
       handleError(error as ApiError);
     }
+    setIsLoading(false);
   };
 
   const handleError = (error: ApiError) => {

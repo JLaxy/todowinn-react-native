@@ -1,4 +1,5 @@
 import ErrorText from "@/components/error.text";
+import { useLoadingContext } from "@/contexts/loading.context";
 import { useThemeContext } from "@/contexts/theme.context";
 import { authService } from "@/services/auth.service";
 import { createGlobalStyles } from "@/styles/globalStyles";
@@ -25,12 +26,15 @@ export default function LoginScreen() {
     setError,
     formState: { errors },
   } = useForm({ resolver: yupResolver(loginSchema) });
+  const { setIsLoading } = useLoadingContext();
 
   const { colors, toggleTheme } = useThemeContext();
   const globalStyles = createGlobalStyles(colors);
   const screenStyle = createScreenStyle(colors); // Pass current colors to style
 
   const onSubmit = async (data: { email: string; pass: string }) => {
+    setIsLoading(true);
+
     console.log(data);
 
     try {
@@ -60,6 +64,8 @@ export default function LoginScreen() {
       setError("email", { type: "manual", message: "" });
       setError("pass", { type: "manual", message: "Invalid Credentials!" });
     }
+
+    setIsLoading(false);
   };
 
   return (
