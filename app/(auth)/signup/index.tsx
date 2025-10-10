@@ -1,3 +1,4 @@
+import ErrorText from "@/components/error.text";
 import { useThemeContext } from "@/contexts/theme.context";
 import { memberService } from "@/services/member.service";
 import { createGlobalStyles } from "@/styles/globalStyles";
@@ -12,7 +13,7 @@ import Toast from "react-native-toast-message";
 import * as yup from "yup";
 
 const signupSchema = yup.object().shape({
-  email: yup.string().email("Invalid email!").required("Email is required"),
+  email: yup.string().email("Invalid email!").required("Email is required."),
   pass: yup
     .string()
     .min(8, "Password must be atleast 8 characters!")
@@ -29,7 +30,7 @@ export default function SignupScreen() {
     handleSubmit,
     setError,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(signupSchema) });
+  } = useForm({ resolver: yupResolver(signupSchema) }); // For forms
 
   const { colors } = useThemeContext();
   const globalStyles = createGlobalStyles(colors);
@@ -51,9 +52,9 @@ export default function SignupScreen() {
           type: "success",
           text1: "Member Created",
           text2: "Member successfully created! Please login.",
-          visibilityTime: 2000,
+          visibilityTime: 2300,
         });
-        setTimeout(() => router.replace("/login"), 2000); // Reditect after 2 seconds
+        setTimeout(() => router.replace("/login"), 1500); // Reditect after 2 seconds
       }
     } catch (error) {
       handleError(error as ApiError);
@@ -105,9 +106,7 @@ export default function SignupScreen() {
               />
             )}
           />
-          {errors.email && (
-            <Text style={globalStyles.error_text}>{errors.email.message}</Text>
-          )}
+          {errors.email && <ErrorText message={errors.email.message} />}
           <Controller
             name="pass"
             control={control}
@@ -130,9 +129,7 @@ export default function SignupScreen() {
               />
             )}
           />
-          {errors.pass && (
-            <Text style={globalStyles.error_text}>{errors.pass.message}</Text>
-          )}
+          {errors.pass && <ErrorText message={errors.pass.message} />}
           <Controller
             name="repeatPass"
             control={control}
@@ -156,9 +153,7 @@ export default function SignupScreen() {
             )}
           />
           {errors.repeatPass && (
-            <Text style={globalStyles.error_text}>
-              {errors.repeatPass.message}
-            </Text>
+            <ErrorText message={errors.repeatPass.message} />
           )}
         </View>
         <Pressable
